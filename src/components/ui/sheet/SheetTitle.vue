@@ -1,19 +1,20 @@
 <script setup>
-import { cn } from '@/lib/utils';
-import { DialogTitle } from 'radix-vue';
-import { computed } from 'vue';
+import { cn } from '@/lib/utiles'
+import { DialogTitle } from 'radix-vue'
+import { computed } from 'vue'
 
 const props = defineProps({
   asChild: { type: Boolean, required: false },
   as: { type: null, required: false },
   class: { type: null, required: false },
-});
+})
 
 const delegatedProps = computed(() => {
-  const { class: _, ...delegated } = props;
+  // eslint-disable-next-line no-unused-vars
+  const { class: _, ...delegated } = props
 
-  return delegated;
-});
+  return delegated
+})
 </script>
 
 <template>
