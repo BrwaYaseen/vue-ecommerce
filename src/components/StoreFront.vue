@@ -1,35 +1,8 @@
 <template>
-  <div class="min-h-screen bg-gray-100">
-    <header class="bg-white shadow-md">
-      <div
-        class="container mx-auto px-4 py-6 flex justify-between items-center"
-      >
-        <h1 class="text-3xl font-bold text-gray-800">{{ storeName }}</h1>
-        <div class="relative">
-          <button
-            @click="toggleCart"
-            class="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition duration-300 ease-in-out flex items-center"
-          >
-            <ShoppingCartIcon class="w-5 h-5 mr-2" />
-            Cart: {{ cartItemCount }}
-          </button>
-          <div
-            v-if="showCart"
-            class="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-xl z-10 p-4"
-          >
-            <h3 class="text-lg font-semibold mb-2">Cart Items</h3>
-            <ul v-if="cart.length > 0">
-              <li v-for="item in cart" :key="item.id" class="mb-2">
-                {{ item.name }} - ${{ item.price.toFixed(2) }}
-              </li>
-            </ul>
-            <p v-else>Your cart is empty</p>
-          </div>
-        </div>
-      </div>
-    </header>
+  <div class="min-h-screen bg-gray-100 flex flex-col">
+    <Navbar :store-name="storeName" :cart="cart" />
 
-    <main class="container mx-auto px-4 py-8">
+    <main class="flex-grow container mx-auto px-4 py-8">
       <h2 class="text-2xl font-semibold text-gray-800 mb-6">
         Featured Products
       </h2>
@@ -63,17 +36,15 @@
       </div>
     </main>
 
-    <footer class="bg-gray-800 text-white py-8 mt-12">
-      <div class="container mx-auto px-4 text-center">
-        <p>&copy; 2023 {{ storeName }}. All rights reserved.</p>
-      </div>
-    </footer>
+    <PageFooter :store-name="storeName" />
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
-import { ShoppingCartIcon, PlusIcon } from 'lucide-vue-next'
+import { ref } from 'vue'
+import { PlusIcon } from 'lucide-vue-next'
+import PageFooter from './PageFooter.vue'
+import Navbar from './Navbar.vue'
 
 const storeName = ref('Vue Boutique')
 
@@ -105,20 +76,9 @@ const products = ref([
 ])
 
 const cart = ref([])
-const showCart = ref(false)
-
-const cartItemCount = computed(() => cart.value.length)
 
 const addToCart = product => {
   cart.value.push(product)
-  showCart.value = true
-  setTimeout(() => {
-    showCart.value = false
-  }, 3000)
-}
-
-const toggleCart = () => {
-  showCart.value = !showCart.value
 }
 </script>
 
