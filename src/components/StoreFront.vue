@@ -46,13 +46,13 @@
                 <p class="text-gray-600 mb-4">
                   ${{ product.price.toFixed(2) }}
                 </p>
-                <button
+                <Button
                   @click="addToCart(product)"
                   class="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300 ease-in-out flex items-center justify-center"
                 >
                   <PlusIcon class="w-5 h-5 mr-2" />
                   Add to Cart
-                </button>
+                </Button>
               </div>
             </div>
           </div>
@@ -144,6 +144,7 @@ import { ref } from 'vue'
 import { PlusIcon } from 'lucide-vue-next'
 import NavBar from './NavBar.vue'
 import PageFooter from './PageFooter.vue'
+import { Button } from './ui/button'
 
 const storeName = ref('Vue Boutique')
 
