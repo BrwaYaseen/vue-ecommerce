@@ -76,36 +76,45 @@
       </div>
     </div>
     <!-- Cart Sheet -->
-    <Sheet v-model:open="showCart">
-      <SheetContent>
+    <Sheet v-model:open="showCart" class="w-full sm:max-w-sm">
+      <SheetContent
+        position="right"
+        size="content"
+        class="w-[400px] sm:w-[540px]"
+      >
         <SheetHeader>
           <SheetTitle>Shopping Cart</SheetTitle>
+          <SheetDescription
+            >Review your items before checking out.</SheetDescription
+          >
         </SheetHeader>
-        <div class="mt-4 space-y-4">
-          <ul v-if="cart.length > 0" class="space-y-4">
-            <li
-              v-for="item in cart"
-              :key="item.id"
-              class="flex justify-between items-center border-b pb-2"
-            >
-              <div>
-                <span class="font-medium">{{ item.name }}</span>
-                <p class="text-sm text-gray-500">
-                  ${{ item.price.toFixed(2) }}
-                </p>
-              </div>
-              <button
-                @click="removeFromCart(item)"
-                class="text-red-500 hover:text-red-700"
+        <div class="mt-6 space-y-4">
+          <ScrollArea class="h-[300px]">
+            <ul v-if="cart.length > 0" class="space-y-4">
+              <li
+                v-for="item in cart"
+                :key="item.id"
+                class="flex justify-between items-center border-b pb-2"
               >
-                <XIcon class="w-5 h-5" />
-              </button>
-            </li>
-          </ul>
-          <p v-else class="text-gray-500">Your cart is empty</p>
+                <div>
+                  <span class="font-medium">{{ item.name }}</span>
+                  <p class="text-sm text-gray-500">
+                    ${{ item.price.toFixed(2) }}
+                  </p>
+                </div>
+                <button
+                  @click="removeFromCart(item)"
+                  class="text-red-500 hover:text-red-700"
+                >
+                  <XIcon class="w-5 h-5" />
+                </button>
+              </li>
+            </ul>
+            <p v-else class="text-gray-500">Your cart is empty</p>
+          </ScrollArea>
         </div>
-        <div v-if="cart.length > 0" class="mt-4">
-          <div class="flex justify-between font-semibold mb-2">
+        <div v-if="cart.length > 0" class="mt-6">
+          <div class="flex justify-between font-semibold mb-4">
             <span>Total:</span>
             <span>${{ cartTotal.toFixed(2) }}</span>
           </div>
@@ -129,7 +138,9 @@ import {
   SheetContent,
   SheetHeader,
   SheetTitle,
+  SheetDescription,
 } from '@/components/ui/sheet'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { Button } from '@/components/ui/button'
 
 const props = defineProps({
@@ -167,8 +178,8 @@ const toggleMobileMenu = () => {
   if (index !== -1) {
     props.cart.splice(index, 1)
   }
-} */
-
+}
+ */
 const checkout = () => {
   // Implement checkout logic here
   alert('Proceeding to checkout...')
