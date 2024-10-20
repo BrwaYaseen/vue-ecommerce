@@ -1,5 +1,5 @@
 <template>
-  <nav class="bg-white shadow-md">
+  <nav class="bg-white shadow-md relative">
     <div class="container mx-auto px-4">
       <div class="flex justify-between items-center py-4">
         <div class="flex items-center">
@@ -33,60 +33,17 @@
           >
         </div>
         <div class="flex items-center space-x-4">
-          <Sheet v-model:open="isCartOpen">
-            <SheetTrigger asChild>
-              <button
-                class="relative p-2 text-gray-600 hover:text-blue-600 transition duration-300"
-              >
-                <ShoppingCartIcon class="w-6 h-6" />
-                <span
-                  class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-blue-600 rounded-full"
-                >
-                  {{ cartItemCount }}
-                </span>
-              </button>
-            </SheetTrigger>
-            <SheetContent :side="'right'" class="w-[400px] sm:w-[540px]">
-              <SheetHeader>
-                <SheetTitle>Shopping Cart</SheetTitle>
-                <SheetDescription
-                  >Review your items before checkout</SheetDescription
-                >
-              </SheetHeader>
-              <div class="mt-6 space-y-4">
-                <ScrollArea class="h-[300px] pr-4">
-                  <ul v-if="cart.length > 0" class="space-y-4">
-                    <li
-                      v-for="item in cart"
-                      :key="item.id"
-                      class="flex justify-between items-center border-b pb-2"
-                    >
-                      <div>
-                        <span class="font-medium">{{ item.name }}</span>
-                        <p class="text-sm text-gray-500">
-                          ${{ item.price.toFixed(2) }}
-                        </p>
-                      </div>
-                      <button
-                        @click="removeFromCart(item)"
-                        class="text-red-500 hover:text-red-700"
-                      >
-                        <XIcon class="w-5 h-5" />
-                      </button>
-                    </li>
-                  </ul>
-                  <p v-else class="text-gray-500">Your cart is empty</p>
-                </ScrollArea>
-              </div>
-              <div v-if="cart.length > 0" class="mt-6">
-                <div class="flex justify-between font-semibold mb-4">
-                  <span>Total:</span>
-                  <span>${{ cartTotal.toFixed(2) }}</span>
-                </div>
-                <Button @click="checkout" class="w-full">Checkout</Button>
-              </div>
-            </SheetContent>
-          </Sheet>
+          <button
+            @click="toggleCart"
+            class="relative p-2 text-gray-600 hover:text-blue-600 transition duration-300"
+          >
+            <ShoppingCartIcon class="w-6 h-6" />
+            <span
+              class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-blue-600 rounded-full"
+            >
+              {{ cartItemCount }}
+            </span>
+          </button>
           <button class="md:hidden" @click="toggleMobileMenu">
             <MenuIcon class="w-6 h-6 text-gray-600" />
           </button>
@@ -118,6 +75,66 @@
         >
       </div>
     </div>
+    <!-- Cart Slide-out Panel -->
+    <Transition name="slide-fade">
+      <div
+        v-if="isCartOpen"
+        class="fixed inset-y-0 right-0 w-full sm:w-96 bg-white shadow-lg z-50 overflow-y-auto"
+      >
+        <div class="p-6">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-2xl font-bold">Your Cart</h2>
+            <button
+              @click="toggleCart"
+              class="text-gray-500 hover:text-gray-700"
+            >
+              <XIcon class="w-6 h-6" />
+            </button>
+          </div>
+          <div v-if="cart.length === 0" class="text-center py-8">
+            <p class="text-gray-500">Your cart is empty</p>
+          </div>
+          <ul v-else class="space-y-4">
+            <li
+              v-for="item in cart"
+              :key="item.id"
+              class="flex justify-between items-center border-b pb-2"
+            >
+              <div>
+                <h3 class="font-medium">{{ item.name }}</h3>
+                <p class="text-sm text-gray-500">
+                  ${{ item.price.toFixed(2) }}
+                </p>
+              </div>
+              <button
+                @click="removeFromCart(item)"
+                class="text-red-500 hover:text-red-700"
+              >
+                <XIcon class="w-5 h-5" />
+              </button>
+            </li>
+          </ul>
+          <div v-if="cart.length > 0" class="mt-6">
+            <div class="flex justify-between font-semibold mb-4">
+              <span>Total:</span>
+              <span>${{ cartTotal.toFixed(2) }}</span>
+            </div>
+            <button
+              @click="checkout"
+              class="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300 ease-in-out"
+            >
+              Checkout
+            </button>
+          </div>
+        </div>
+      </div>
+    </Transition>
+    <!-- Overlay -->
+    <div
+      v-if="isCartOpen"
+      class="fixed inset-0 bg-black bg-opacity-50 z-40"
+      @click="toggleCart"
+    ></div>
   </nav>
 </template>
 
@@ -129,16 +146,6 @@ import {
   MenuIcon,
   XIcon,
 } from 'lucide-vue-next'
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { Button } from '@/components/ui/button'
 
 const props = defineProps({
   storeName: {
@@ -164,12 +171,17 @@ const toggleMobileMenu = () => {
   mobileMenuOpen.value = !mobileMenuOpen.value
 }
 
-/* const removeFromCart = (item) => {
+const toggleCart = () => {
+  isCartOpen.value = !isCartOpen.value
+}
+
+const removeFromCart = item => {
   const index = props.cart.findIndex(cartItem => cartItem.id === item.id)
   if (index !== -1) {
+    // eslint-disable-next-line vue/no-mutating-props
     props.cart.splice(index, 1)
   }
-} */
+}
 
 const checkout = () => {
   // Implement checkout logic here
@@ -177,3 +189,16 @@ const checkout = () => {
   isCartOpen.value = false
 }
 </script>
+
+<style scoped>
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+  transition: all 0.3s ease;
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(100%);
+  opacity: 0;
+}
+</style>

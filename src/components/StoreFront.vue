@@ -1,7 +1,6 @@
 <template>
   <div class="min-h-screen bg-gray-100 flex flex-col">
     <NavBar :store-name="storeName" :cart="cart" />
-
     <main class="flex-grow">
       <!-- Hero Section -->
       <section class="bg-blue-600 text-white py-20">
