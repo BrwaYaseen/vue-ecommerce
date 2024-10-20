@@ -33,17 +33,60 @@
           >
         </div>
         <div class="flex items-center space-x-4">
-          <button
-            @click="openCart"
-            class="relative p-2 text-gray-600 hover:text-blue-600 transition duration-300"
-          >
-            <ShoppingCartIcon class="w-6 h-6" />
-            <span
-              class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-blue-600 rounded-full"
-            >
-              {{ cartItemCount }}
-            </span>
-          </button>
+          <Sheet v-model:open="isCartOpen">
+            <SheetTrigger asChild>
+              <button
+                class="relative p-2 text-gray-600 hover:text-blue-600 transition duration-300"
+              >
+                <ShoppingCartIcon class="w-6 h-6" />
+                <span
+                  class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-blue-600 rounded-full"
+                >
+                  {{ cartItemCount }}
+                </span>
+              </button>
+            </SheetTrigger>
+            <SheetContent :side="'right'" class="w-[400px] sm:w-[540px]">
+              <SheetHeader>
+                <SheetTitle>Shopping Cart</SheetTitle>
+                <SheetDescription
+                  >Review your items before checkout</SheetDescription
+                >
+              </SheetHeader>
+              <div class="mt-6 space-y-4">
+                <ScrollArea class="h-[300px] pr-4">
+                  <ul v-if="cart.length > 0" class="space-y-4">
+                    <li
+                      v-for="item in cart"
+                      :key="item.id"
+                      class="flex justify-between items-center border-b pb-2"
+                    >
+                      <div>
+                        <span class="font-medium">{{ item.name }}</span>
+                        <p class="text-sm text-gray-500">
+                          ${{ item.price.toFixed(2) }}
+                        </p>
+                      </div>
+                      <button
+                        @click="removeFromCart(item)"
+                        class="text-red-500 hover:text-red-700"
+                      >
+                        <XIcon class="w-5 h-5" />
+                      </button>
+                    </li>
+                  </ul>
+                  <p v-else class="text-gray-500">Your cart is empty</p>
+                </ScrollArea>
+              </div>
+              <div v-if="cart.length > 0" class="mt-6">
+                <div class="flex justify-between font-semibold mb-4">
+                  <span>Total:</span>
+                  <span>${{ cartTotal.toFixed(2) }}</span>
+                </div>
+                <Button @click="checkout" class="w-full">Checkout</Button>
+              </div>
+            </SheetContent>
+          </Sheet>
           <button class="md:hidden" @click="toggleMobileMenu">
             <MenuIcon class="w-6 h-6 text-gray-600" />
           </button>
@@ -75,53 +118,6 @@
         >
       </div>
     </div>
-    <!-- Cart Sheet -->
-    <Sheet v-model:open="showCart" class="w-full sm:max-w-sm">
-      <SheetContent
-        position="right"
-        size="content"
-        class="w-[400px] sm:w-[540px]"
-      >
-        <SheetHeader>
-          <SheetTitle>Shopping Cart</SheetTitle>
-          <SheetDescription
-            >Review your items before checking out.</SheetDescription
-          >
-        </SheetHeader>
-        <div class="mt-6 space-y-4">
-          <ScrollArea class="h-[300px]">
-            <ul v-if="cart.length > 0" class="space-y-4">
-              <li
-                v-for="item in cart"
-                :key="item.id"
-                class="flex justify-between items-center border-b pb-2"
-              >
-                <div>
-                  <span class="font-medium">{{ item.name }}</span>
-                  <p class="text-sm text-gray-500">
-                    ${{ item.price.toFixed(2) }}
-                  </p>
-                </div>
-                <button
-                  @click="removeFromCart(item)"
-                  class="text-red-500 hover:text-red-700"
-                >
-                  <XIcon class="w-5 h-5" />
-                </button>
-              </li>
-            </ul>
-            <p v-else class="text-gray-500">Your cart is empty</p>
-          </ScrollArea>
-        </div>
-        <div v-if="cart.length > 0" class="mt-6">
-          <div class="flex justify-between font-semibold mb-4">
-            <span>Total:</span>
-            <span>${{ cartTotal.toFixed(2) }}</span>
-          </div>
-          <Button @click="checkout" class="w-full">Checkout</Button>
-        </div>
-      </SheetContent>
-    </Sheet>
   </nav>
 </template>
 
@@ -136,9 +132,10 @@ import {
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
-  SheetDescription,
+  SheetTrigger,
 } from '@/components/ui/sheet'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Button } from '@/components/ui/button'
@@ -154,8 +151,8 @@ const props = defineProps({
   },
 })
 
-const showCart = ref(false)
 const mobileMenuOpen = ref(false)
+const isCartOpen = ref(false)
 
 const cartItemCount = computed(() => props.cart.length)
 
@@ -163,14 +160,8 @@ const cartTotal = computed(() => {
   return props.cart.reduce((total, item) => total + item.price, 0)
 })
 
-const openCart = () => {
-  showCart.value = true
-  if (mobileMenuOpen.value) mobileMenuOpen.value = false
-}
-
 const toggleMobileMenu = () => {
   mobileMenuOpen.value = !mobileMenuOpen.value
-  if (showCart.value) showCart.value = false
 }
 
 /* const removeFromCart = (item) => {
@@ -178,11 +169,11 @@ const toggleMobileMenu = () => {
   if (index !== -1) {
     props.cart.splice(index, 1)
   }
-}
- */
+} */
+
 const checkout = () => {
   // Implement checkout logic here
   alert('Proceeding to checkout...')
-  showCart.value = false
+  isCartOpen.value = false
 }
 </script>
