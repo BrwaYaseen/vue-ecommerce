@@ -1,7 +1,7 @@
 <script setup>
-import StoreFront from './components/StoreFront.vue'
+import HomeView from './views/HomeView.vue'
 </script>
 
 <template>
-  <StoreFront />
+  <HomeView />
 </template>
