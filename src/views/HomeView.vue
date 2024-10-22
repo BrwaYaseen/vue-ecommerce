@@ -1,6 +1,5 @@
 <template>
   <div class="min-h-screen bg-gray-100 flex flex-col">
-    <NavBar :store-name="storeName" :cart="cart" />
     <main class="flex-grow">
       <!-- Hero Section -->
       <section class="bg-blue-600 text-white py-20">
@@ -142,7 +141,6 @@
 import { ref } from 'vue'
 import { PlusIcon } from 'lucide-vue-next'
 import PageFooter from '@/components/PageFooter.vue'
-import NavBar from '@/components/NavBar.vue'
 import { Button } from '@/components/ui/button'
 
 const storeName = ref('Vue Boutique')

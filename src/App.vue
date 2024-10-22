@@ -1,7 +1,18 @@
 <script setup>
-import HomeView from './views/HomeView.vue'
+import { ref } from 'vue'
+import NavBar from './components/NavBar.vue'
+
+const storeName = ref('Vue Boutique')
+const cart = ref([])
 </script>
 
 <template>
-  <HomeView />
+  <div id="app">
+    <NavBar :store-name="storeName" :cart="cart" />
+    <router-view></router-view>
+  </div>
 </template>
+
+<style>
+/* You can add any global styles here if needed */
+</style>
