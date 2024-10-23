@@ -119,12 +119,13 @@
               <span>Total:</span>
               <span>${{ cartTotal.toFixed(2) }}</span>
             </div>
-            <button
-              @click="checkout"
-              class="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300 ease-in-out"
+            <router-link
+              to="/checkout"
+              class="block w-full bg-blue-600 text-white text-center px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300 ease-in-out"
+              @click="toggleCart"
             >
-              Checkout
-            </button>
+              Proceed to Checkout
+            </router-link>
           </div>
         </div>
       </div>
@@ -175,19 +176,12 @@ const toggleCart = () => {
   isCartOpen.value = !isCartOpen.value
 }
 
-const removeFromCart = item => {
+/* const removeFromCart = (item) => {
   const index = props.cart.findIndex(cartItem => cartItem.id === item.id)
   if (index !== -1) {
-    // eslint-disable-next-line vue/no-mutating-props
     props.cart.splice(index, 1)
   }
-}
-
-const checkout = () => {
-  // Implement checkout logic here
-  alert('Proceeding to checkout...')
-  isCartOpen.value = false
-}
+} */
 </script>
 
 <style scoped>
