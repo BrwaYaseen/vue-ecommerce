@@ -11,7 +11,7 @@
             Discover amazing products at unbeatable prices!
           </p>
           <a
-            href="#featured-products"
+            href="/products"
             class="bg-white text-blue-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition duration-300"
             >Shop Now</a
           >

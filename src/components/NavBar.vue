@@ -1,7 +1,7 @@
 <template>
   <nav class="bg-white shadow-md relative">
     <div class="container mx-auto px-4">
-      <div class="flex justify-between items-center py-4">
+      <div class="flex flex-wrap justify-between items-center py-4">
         <div class="flex items-center">
           <router-link to="/" class="flex items-center">
             <ShoppingBagIcon class="h-8 w-8 text-blue-600 mr-2" />
@@ -10,29 +10,7 @@
             }}</span>
           </router-link>
         </div>
-        <div class="hidden md:flex space-x-8">
-          <router-link
-            to="/"
-            class="text-gray-600 hover:text-blue-600 transition duration-300 font-medium"
-            >Home</router-link
-          >
-          <router-link
-            to="/products"
-            class="text-gray-600 hover:text-blue-600 transition duration-300 font-medium"
-            >Products</router-link
-          >
-          <router-link
-            to="/about"
-            class="text-gray-600 hover:text-blue-600 transition duration-300 font-medium"
-            >About</router-link
-          >
-          <router-link
-            to="/contact"
-            class="text-gray-600 hover:text-blue-600 transition duration-300 font-medium"
-            >Contact</router-link
-          >
-        </div>
-        <div class="flex items-center space-x-4">
+        <div class="flex items-center lg:order-last">
           <button
             @click="toggleCart"
             class="relative p-2 text-gray-600 hover:text-blue-600 transition duration-300"
@@ -44,35 +22,51 @@
               {{ cartItemCount }}
             </span>
           </button>
-          <button class="md:hidden" @click="toggleMobileMenu">
+          <button class="lg:hidden ml-2" @click="toggleMobileMenu">
             <MenuIcon class="w-6 h-6 text-gray-600" />
           </button>
+        </div>
+        <div class="hidden lg:flex flex-grow justify-center space-x-8">
+          <router-link
+            v-for="link in links"
+            :key="link.to"
+            :to="link.to"
+            class="text-gray-600 hover:text-blue-600 transition duration-300 font-medium"
+          >
+            {{ link.text }}
+          </router-link>
+        </div>
+        <div class="w-full lg:w-auto mt-4 lg:mt-0 order-last lg:order-none">
+          <div class="relative">
+            <input
+              type="text"
+              placeholder="Search products..."
+              class="w-full px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              v-model="searchQuery"
+              @keyup.enter="performSearch"
+            />
+            <button
+              @click="performSearch"
+              class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-500"
+            >
+              <SearchIcon class="w-5 h-5" />
+            </button>
+          </div>
         </div>
       </div>
     </div>
     <!-- Mobile Menu -->
-    <div v-if="mobileMenuOpen" class="md:hidden">
+    <div v-if="mobileMenuOpen" class="lg:hidden">
       <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
         <router-link
-          to="/"
+          v-for="link in links"
+          :key="link.to"
+          :to="link.to"
           class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50"
-          >Home</router-link
+          @click="mobileMenuOpen = false"
         >
-        <router-link
-          to="/products"
-          class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50"
-          >Products</router-link
-        >
-        <router-link
-          to="/about"
-          class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50"
-          >About</router-link
-        >
-        <router-link
-          to="/contact"
-          class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50"
-          >Contact</router-link
-        >
+          {{ link.text }}
+        </router-link>
       </div>
     </div>
     <!-- Cart Slide-out Panel -->
@@ -146,6 +140,7 @@ import {
   ShoppingCartIcon,
   MenuIcon,
   XIcon,
+  SearchIcon,
 } from 'lucide-vue-next'
 
 const props = defineProps({
@@ -159,8 +154,16 @@ const props = defineProps({
   },
 })
 
+const links = [
+  { to: '/', text: 'Home' },
+  { to: '/products', text: 'Products' },
+  { to: '/about', text: 'About' },
+  { to: '/contact', text: 'Contact' },
+]
+
 const mobileMenuOpen = ref(false)
 const isCartOpen = ref(false)
+const searchQuery = ref('')
 
 const cartItemCount = computed(() => props.cart.length)
 
@@ -176,12 +179,19 @@ const toggleCart = () => {
   isCartOpen.value = !isCartOpen.value
 }
 
-/* const removeFromCart = (item) => {
+const removeFromCart = item => {
   const index = props.cart.findIndex(cartItem => cartItem.id === item.id)
   if (index !== -1) {
+    // eslint-disable-next-line vue/no-mutating-props
     props.cart.splice(index, 1)
   }
-} */
+}
+
+const performSearch = () => {
+  // Implement search functionality here
+  console.log('Searching for:', searchQuery.value)
+  // You might want to emit an event or use a store action to handle the search
+}
 </script>
 
 <style scoped>
