@@ -10,11 +10,12 @@
           <p class="text-xl mb-8">
             Discover amazing products at unbeatable prices!
           </p>
-          <a
-            href="/products"
+          <router-link
+            to="/products"
             class="bg-white text-blue-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition duration-300"
-            >Shop Now</a
           >
+            Shop Now
+          </router-link>
         </div>
       </section>
 
@@ -27,32 +28,12 @@
           <div
             class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
           >
-            <div
+            <ProductCard
               v-for="product in featuredProducts"
               :key="product.id"
-              class="bg-white rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out transform hover:scale-105"
-            >
-              <img
-                :src="product.image"
-                :alt="product.name"
-                class="w-full h-48 object-cover"
-              />
-              <div class="p-4">
-                <h3 class="text-lg font-semibold text-gray-800 mb-2">
-                  {{ product.name }}
-                </h3>
-                <p class="text-gray-600 mb-4">
-                  ${{ product.price.toFixed(2) }}
-                </p>
-                <Button
-                  @click="addToCart(product)"
-                  class="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300 ease-in-out flex items-center justify-center"
-                >
-                  <PlusIcon class="w-5 h-5 mr-2" />
-                  Add to Cart
-                </Button>
-              </div>
-            </div>
+              :product="product"
+              @add-to-cart="addToCart"
+            />
           </div>
         </div>
       </section>
@@ -93,11 +74,12 @@
           <p class="text-xl mb-8">
             Get 20% off on all products. Use code: SUMMER20
           </p>
-          <a
-            href="#"
+          <router-link
+            to="/products"
             class="bg-white text-purple-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition duration-300"
-            >Shop Now</a
           >
+            Shop Now
+          </router-link>
         </div>
       </section>
 
@@ -139,11 +121,12 @@
 
 <script setup>
 import { ref } from 'vue'
-import { PlusIcon } from 'lucide-vue-next'
+import { useCartStore } from '@/stores/cart'
 import PageFooter from '@/components/PageFooter.vue'
-import { Button } from '@/components/ui/button'
+import ProductCard from '@/components/ProductCard.vue'
 
 const storeName = ref('Vue Boutique')
+const cartStore = useCartStore()
 
 const featuredProducts = ref([
   {
@@ -215,10 +198,8 @@ const testimonials = ref([
   },
 ])
 
-const cart = ref([])
-
 const addToCart = product => {
-  cart.value.push({ ...product, id: Date.now() }) // Add a unique id for each cart item
+  cartStore.addItem(product)
 }
 </script>
 
