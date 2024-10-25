@@ -19,7 +19,7 @@
             <span
               class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-blue-600 rounded-full"
             >
-              {{ cartItemCount }}
+              {{ cartStore.itemCount }}
             </span>
           </button>
           <button class="lg:hidden ml-2" @click="toggleMobileMenu">
@@ -85,33 +85,33 @@
               <XIcon class="w-6 h-6" />
             </button>
           </div>
-          <div v-if="cart.length === 0" class="text-center py-8">
+          <div v-if="cartStore.itemCount === 0" class="text-center py-8">
             <p class="text-gray-500">Your cart is empty</p>
           </div>
           <ul v-else class="space-y-4">
             <li
-              v-for="item in cart"
+              v-for="item in cartStore.items"
               :key="item.id"
               class="flex justify-between items-center border-b pb-2"
             >
               <div>
                 <h3 class="font-medium">{{ item.name }}</h3>
                 <p class="text-sm text-gray-500">
-                  ${{ item.price.toFixed(2) }}
+                  ${{ item.price.toFixed(2) }} x {{ item.quantity }}
                 </p>
               </div>
               <button
-                @click="removeFromCart(item)"
+                @click="cartStore.removeItem(item.id)"
                 class="text-red-500 hover:text-red-700"
               >
                 <XIcon class="w-5 h-5" />
               </button>
             </li>
           </ul>
-          <div v-if="cart.length > 0" class="mt-6">
+          <div v-if="cartStore.itemCount > 0" class="mt-6">
             <div class="flex justify-between font-semibold mb-4">
               <span>Total:</span>
-              <span>${{ cartTotal.toFixed(2) }}</span>
+              <span>${{ cartStore.total.toFixed(2) }}</span>
             </div>
             <router-link
               to="/checkout"
@@ -134,7 +134,8 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
+import { useCartStore } from '@/stores/cart'
 import {
   ShoppingBagIcon,
   ShoppingCartIcon,
@@ -143,16 +144,15 @@ import {
   SearchIcon,
 } from 'lucide-vue-next'
 
+// eslint-disable-next-line no-unused-vars
 const props = defineProps({
   storeName: {
     type: String,
     required: true,
   },
-  cart: {
-    type: Array,
-    required: true,
-  },
 })
+
+const cartStore = useCartStore()
 
 const links = [
   { to: '/', text: 'Home' },
@@ -165,26 +165,12 @@ const mobileMenuOpen = ref(false)
 const isCartOpen = ref(false)
 const searchQuery = ref('')
 
-const cartItemCount = computed(() => props.cart.length)
-
-const cartTotal = computed(() => {
-  return props.cart.reduce((total, item) => total + item.price, 0)
-})
-
 const toggleMobileMenu = () => {
   mobileMenuOpen.value = !mobileMenuOpen.value
 }
 
 const toggleCart = () => {
   isCartOpen.value = !isCartOpen.value
-}
-
-const removeFromCart = item => {
-  const index = props.cart.findIndex(cartItem => cartItem.id === item.id)
-  if (index !== -1) {
-    // eslint-disable-next-line vue/no-mutating-props
-    props.cart.splice(index, 1)
-  }
 }
 
 const performSearch = () => {
