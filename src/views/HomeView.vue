@@ -8,7 +8,7 @@
             Welcome to {{ storeName }}
           </h1>
           <p class="text-xl mb-8">
-            Discover amazing products at unbeatable prices!
+            Discover stylish clothes at unbeatable prices!
           </p>
           <router-link
             to="/products"
@@ -25,9 +25,7 @@
           <h2 class="text-3xl font-semibold text-gray-800 mb-8 text-center">
             Featured Products
           </h2>
-          <div
-            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
-          >
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             <ProductCard
               v-for="product in featuredProducts"
               :key="product.id"
@@ -53,7 +51,7 @@
               <img
                 :src="category.image"
                 :alt="category.name"
-                class="w-full h-32 object-cover"
+                class="w-full h-48 object-cover object-center"
               />
               <div class="p-4">
                 <h3 class="text-lg font-semibold text-gray-800 text-center">
@@ -72,7 +70,7 @@
         <div class="container mx-auto px-4 text-center">
           <h2 class="text-3xl font-semibold mb-4">Special Offer!</h2>
           <p class="text-xl mb-8">
-            Get 20% off on all products. Use code: SUMMER20
+            Get 20% off on all summer collection. Use code: SUMMER20
           </p>
           <router-link
             to="/products"
@@ -125,52 +123,57 @@ import { useCartStore } from '@/stores/cart'
 import PageFooter from '@/components/PageFooter.vue'
 import ProductCard from '@/components/ProductCard.vue'
 
-const storeName = ref('Vue Boutique')
+const storeName = ref('Vue Clothing Boutique')
 const cartStore = useCartStore()
 
 const featuredProducts = ref([
   {
     id: 1,
-    name: 'Elegant Watch',
-    price: 199.99,
-    image: '/placeholder.svg?height=300&width=300',
+    name: 'Classic Denim Jacket',
+    price: 89.99,
+    image:
+      'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/denim-jacket-RFXxWb8JQxhXbwZXXXXXXXXXXX.jpg',
   },
   {
     id: 2,
-    name: 'Designer Sunglasses',
-    price: 129.99,
-    image: '/placeholder.svg?height=300&width=300',
+    name: 'Slim Fit Chinos',
+    price: 59.99,
+    image:
+      'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/chinos-RFXxWb8JQxhXbwZXXXXXXXXXXX.jpg',
   },
   {
     id: 3,
-    name: 'Leather Wallet',
-    price: 79.99,
-    image: '/placeholder.svg?height=300&width=300',
-  },
-  {
-    id: 4,
-    name: 'Wireless Earbuds',
-    price: 149.99,
-    image: '/placeholder.svg?height=300&width=300',
+    name: 'Casual Cotton T-Shirt',
+    price: 24.99,
+    image:
+      'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tshirt-RFXxWb8JQxhXbwZXXXXXXXXXXX.jpg',
   },
 ])
 
 const categories = ref([
   {
     id: 1,
-    name: 'Electronics',
-    image: '/placeholder.svg?height=200&width=200',
+    name: 'Jackets',
+    image:
+      'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/jackets-category-RFXxWb8JQxhXbwZXXXXXXXXXXX.jpg',
   },
-  { id: 2, name: 'Clothing', image: '/placeholder.svg?height=200&width=200' },
+  {
+    id: 2,
+    name: 'Shirts',
+    image:
+      'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/shirts-category-RFXxWb8JQxhXbwZXXXXXXXXXXX.jpg',
+  },
   {
     id: 3,
-    name: 'Home & Garden',
-    image: '/placeholder.svg?height=200&width=200',
+    name: 'Pants',
+    image:
+      'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/pants-category-RFXxWb8JQxhXbwZXXXXXXXXXXX.jpg',
   },
   {
     id: 4,
-    name: 'Sports & Outdoors',
-    image: '/placeholder.svg?height=200&width=200',
+    name: 'Accessories',
+    image:
+      'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/accessories-category-RFXxWb8JQxhXbwZXXXXXXXXXXX.jpg',
   },
 ])
 
@@ -178,22 +181,22 @@ const testimonials = ref([
   {
     id: 1,
     name: 'John Doe',
-    title: 'Happy Customer',
-    text: 'Great products and excellent service!',
+    title: 'Fashion Enthusiast',
+    text: 'The quality of clothes here is outstanding. I love my new jacket!',
     avatar: '/placeholder.svg?height=100&width=100',
   },
   {
     id: 2,
     name: 'Jane Smith',
-    title: 'Loyal Shopper',
-    text: 'Always find what I need here. Highly recommended!',
+    title: 'Loyal Customer',
+    text: 'Always find the latest trends here. The fit is always perfect!',
     avatar: '/placeholder.svg?height=100&width=100',
   },
   {
     id: 3,
     name: 'Mike Johnson',
-    title: 'Tech Enthusiast',
-    text: 'The best place for all my gadget needs!',
+    title: 'Style Blogger',
+    text: 'This boutique is my go-to for unique, stylish pieces. Highly recommended!',
     avatar: '/placeholder.svg?height=100&width=100',
   },
 ])
