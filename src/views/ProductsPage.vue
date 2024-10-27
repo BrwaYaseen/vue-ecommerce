@@ -1,61 +1,67 @@
 <template>
   <div class="container mx-auto px-4 py-8">
     <h1 class="text-3xl font-bold mb-8">Our Products</h1>
-
-    <!-- Filters and Sorting -->
-    <div class="mb-8 flex flex-wrap items-center justify-between">
-      <div class="w-full md:w-auto mb-4 md:mb-0">
-        <label for="category" class="mr-2">Category:</label>
-        <select
-          id="category"
-          v-model="selectedCategory"
-          class="border rounded px-2 py-1"
+    <div class="flex flex-col md:flex-row">
+      <!-- Categories and Filters Sidebar -->
+      <div class="w-full md:w-1/4 pr-8">
+        <div class="mb-8">
+          <h2 class="text-xl font-semibold mb-4">Categories</h2>
+          <ul class="space-y-2">
+            <li v-for="category in categories" :key="category">
+              <button
+                @click="toggleCategory(category)"
+                :class="[
+                  'w-full text-left px-3 py-2 rounded',
+                  selectedCategories.includes(category)
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-gray-200 text-gray-800 hover:bg-gray-300',
+                ]"
+              >
+                {{ category }}
+              </button>
+            </li>
+          </ul>
+        </div>
+        <div class="mb-8">
+          <h2 class="text-xl font-semibold mb-4">Price Range</h2>
+          <div class="flex items-center space-x-4">
+            <input
+              v-model.number="minPrice"
+              type="number"
+              placeholder="Min"
+              class="w-1/2 px-3 py-2 border rounded"
+            />
+            <input
+              v-model.number="maxPrice"
+              type="number"
+              placeholder="Max"
+              class="w-1/2 px-3 py-2 border rounded"
+            />
+          </div>
+        </div>
+        <button
+          @click="applyFilters"
+          class="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
         >
-          <option value="">All</option>
-          <option
-            v-for="category in categories"
-            :key="category"
-            :value="category"
-          >
-            {{ category }}
-          </option>
-        </select>
+          Apply Filters
+        </button>
       </div>
-      <div class="w-full md:w-auto mb-4 md:mb-0">
-        <label for="sort" class="mr-2">Sort by:</label>
-        <select id="sort" v-model="sortBy" class="border rounded px-2 py-1">
-          <option value="name">Name</option>
-          <option value="price">Price</option>
-        </select>
-      </div>
-      <div class="w-full md:w-auto">
-        <label for="search" class="sr-only">Search</label>
-        <input
-          id="search"
-          v-model="searchQuery"
-          type="text"
-          placeholder="Search products..."
-          class="border rounded px-2 py-1 w-full md:w-auto"
-        />
-      </div>
-    </div>
 
-    <!-- Products Grid -->
-    <div
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
-    >
-      <ProductCard
-        v-for="product in filteredAndSortedProducts"
-        :key="product.id"
-        :product="product"
-      />
-    </div>
-
-    <!-- No Results Message -->
-    <div v-if="filteredAndSortedProducts.length === 0" class="text-center mt-8">
-      <p class="text-xl text-gray-600">
-        No products found matching your criteria.
-      </p>
+      <!-- Products Grid -->
+      <div class="w-full md:w-3/4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <ProductCard
+            v-for="product in filteredProducts"
+            :key="product.id"
+            :product="product"
+          />
+        </div>
+        <div v-if="filteredProducts.length === 0" class="text-center mt-8">
+          <p class="text-xl text-gray-600">
+            No products found matching your criteria.
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -67,47 +73,40 @@ import { useProductStore } from '@/stores/product'
 
 const productStore = useProductStore()
 
-// Local state
-const selectedCategory = ref('')
-const sortBy = ref('name')
-const searchQuery = ref('')
+const categories = ['T-Shirts', 'Hoodies', 'Hats', 'Accessories']
+const selectedCategories = ref([])
+const minPrice = ref(null)
+const maxPrice = ref(null)
 
-// Computed properties
-const categories = computed(() => {
-  return [...new Set(productStore.products.map(product => product.category))]
-})
-
-const filteredAndSortedProducts = computed(() => {
-  let result = productStore.products
-
-  // Filter by category
-  if (selectedCategory.value) {
-    result = result.filter(
-      product => product.category === selectedCategory.value,
-    )
+const toggleCategory = category => {
+  const index = selectedCategories.value.indexOf(category)
+  if (index === -1) {
+    selectedCategories.value.push(category)
+  } else {
+    selectedCategories.value.splice(index, 1)
   }
+}
 
-  // Filter by search query
-  if (searchQuery.value) {
-    const query = searchQuery.value.toLowerCase()
-    result = result.filter(
-      product =>
-        product.name.toLowerCase().includes(query) ||
-        product.description.toLowerCase().includes(query),
-    )
-  }
-
-  // Sort products
-  result.sort((a, b) => {
-    if (sortBy.value === 'name') {
-      return a.name.localeCompare(b.name)
-    } else if (sortBy.value === 'price') {
-      return a.price - b.price
-    }
-    return 0
+const applyFilters = () => {
+  // This function would typically trigger a re-fetch of products from the API
+  // For now, we'll just re-compute the filteredProducts
+  console.log('Applying filters:', {
+    selectedCategories: selectedCategories.value,
+    minPrice: minPrice.value,
+    maxPrice: maxPrice.value,
   })
+}
 
-  return result
+const filteredProducts = computed(() => {
+  return productStore.products.filter(product => {
+    const categoryMatch =
+      selectedCategories.value.length === 0 ||
+      selectedCategories.value.includes(product.category)
+    const priceMatch =
+      (minPrice.value === null || product.price >= minPrice.value) &&
+      (maxPrice.value === null || product.price <= maxPrice.value)
+    return categoryMatch && priceMatch
+  })
 })
 
 // Fetch products when the component is mounted

@@ -1,31 +1,28 @@
 <template>
-  <div
-    class="bg-white rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out transform hover:scale-105 flex flex-col"
-  >
-    <div class="relative aspect-[3/4] mb-2 overflow-hidden">
+  <div class="flex flex-col">
+    <div class="relative aspect-[3/4] mb-2 overflow-hidden group">
       <img
         :src="product.image"
         :alt="product.name"
-        class="absolute inset-0 w-full h-full object-cover"
+        class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
       />
-    </div>
-    <div class="p-4 flex flex-col flex-grow">
-      <h3 class="text-sm font-medium text-gray-900">{{ product.name }}</h3>
-      <p class="text-sm text-gray-500">${{ product.price.toFixed(2) }} USD</p>
-      <Button
+      <div
+        class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-opacity duration-300"
+      ></div>
+      <button
         @click="addToCart"
-        class="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300 ease-in-out flex items-center justify-center"
+        class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-white text-gray-900 px-4 py-2 rounded-full font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300"
       >
-        <PlusIcon class="w-5 h-5 mr-2" />
         Add to Cart
-      </Button>
+      </button>
     </div>
+    <h3 class="text-sm font-medium text-gray-900">{{ product.name }}</h3>
+    <p class="text-sm text-gray-500">${{ product.price.toFixed(2) }} USD</p>
   </div>
 </template>
 
 <script setup>
-import { PlusIcon } from 'lucide-vue-next'
-import { Button } from '@/components/ui/button'
+import { useCartStore } from '@/stores/cart'
 
 const props = defineProps({
   product: {
@@ -34,9 +31,9 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['add-to-cart'])
+const cartStore = useCartStore()
 
 const addToCart = () => {
-  emit('add-to-cart', props.product)
+  cartStore.addItem(props.product)
 }
 </script>
