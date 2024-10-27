@@ -22,10 +22,12 @@
       <!-- Featured Products Section -->
       <section id="featured-products" class="py-16">
         <div class="container mx-auto px-4">
-          <h2 class="text-3xl font-semibold text-gray-800 mb-8 text-center">
+          <h2 class="text-2xl font-bold text-gray-900 mb-8">
             Featured Products
           </h2>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div
+            class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10"
+          >
             <ProductCard
               v-for="product in featuredProducts"
               :key="product.id"
@@ -140,6 +142,13 @@ const featuredProducts = ref([
     price: 59.99,
     image:
       'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/chinos-RFXxWb8JQxhXbwZXXXXXXXXXXX.jpg',
+  },
+  {
+    id: 3,
+    name: 'Casual Cotton T-Shirt',
+    price: 24.99,
+    image:
+      'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tshirt-RFXxWb8JQxhXbwZXXXXXXXXXXX.jpg',
   },
   {
     id: 3,
