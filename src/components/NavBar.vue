@@ -157,7 +157,7 @@ const cartStore = useCartStore()
 const links = [
   { to: '/', text: 'Home' },
   { to: '/products', text: 'Products' },
-  { to: '/about', text: 'About' },
+  { to: '/help', text: 'Help' },
   { to: '/contact', text: 'Contact' },
 ]
 
