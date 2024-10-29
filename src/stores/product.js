@@ -11,43 +11,38 @@ export const useProductStore = defineStore('product', {
       this.products = [
         {
           id: 1,
-          name: 'TRUMP HAT 2 CREW NECK',
+          name: 'CREW NECK',
           price: 60,
           category: 'Hoodies',
-          image:
-            'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/trump-hat-2-crew-neck-RFXxWb8JQxhXbwZXXXXXXXXXXX.jpg',
+          image: 'hood.webp',
         },
         {
           id: 2,
-          name: 'TRUMP HAT 2 T-SHIRT',
+          name: 'T-SHIRT',
           price: 35,
           category: 'T-Shirts',
-          image:
-            'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/trump-hat-2-tshirt-RFXxWb8JQxhXbwZXXXXXXXXXXX.jpg',
+          image: '/tsh.webp',
         },
         {
           id: 3,
-          name: 'TRUMP LIMO T-SHIRT',
+          name: 'T-SHIRT 2',
           price: 35,
           category: 'T-Shirts',
-          image:
-            'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/trump-limo-tshirt-RFXxWb8JQxhXbwZXXXXXXXXXXX.jpg',
+          image: '/tsh2.webp',
         },
         {
           id: 4,
-          name: 'MAGA HAT',
+          name: 'HAT',
           price: 25,
           category: 'Hats',
-          image:
-            'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/maga-hat-RFXxWb8JQxhXbwZXXXXXXXXXXX.jpg',
+          image: '/hat.webp',
         },
         {
           id: 5,
-          name: 'TRUMP 2024 PIN',
+          name: 'PIN',
           price: 10,
           category: 'Accessories',
-          image:
-            'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/trump-2024-pin-RFXxWb8JQxhXbwZXXXXXXXXXXX.jpg',
+          image: '/pin.png',
         },
         // Add more products as needed
       ]
