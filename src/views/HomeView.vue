@@ -131,31 +131,27 @@ const cartStore = useCartStore()
 const featuredProducts = ref([
   {
     id: 1,
-    name: 'Classic Denim Jacket',
+    name: 'Classic Hoodie',
     price: 89.99,
-    image:
-      'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/denim-jacket-RFXxWb8JQxhXbwZXXXXXXXXXXX.jpg',
+    image: '/hood.webp',
   },
   {
     id: 2,
-    name: 'Slim Fit Chinos',
+    name: 'Slim Fit Shirt',
     price: 59.99,
-    image:
-      'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/chinos-RFXxWb8JQxhXbwZXXXXXXXXXXX.jpg',
+    image: '/tsh.webp',
   },
   {
     id: 3,
     name: 'Casual Cotton T-Shirt',
     price: 24.99,
-    image:
-      'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tshirt-RFXxWb8JQxhXbwZXXXXXXXXXXX.jpg',
+    image: '/tsh2.webp',
   },
   {
     id: 3,
     name: 'Casual Cotton T-Shirt',
     price: 24.99,
-    image:
-      'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tshirt-RFXxWb8JQxhXbwZXXXXXXXXXXX.jpg',
+    image: '/tsh3.jpg',
   },
 ])
 
