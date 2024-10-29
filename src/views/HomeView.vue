@@ -212,9 +212,5 @@ const addToCart = product => {
 </script>
 
 <style scoped>
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
-
 /* Add any additional custom styles here */
 </style>

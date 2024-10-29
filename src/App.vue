@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import NavBar from './components/NavBar.vue'
 
-const storeName = ref('Vue Boutique')
+const storeName = ref('Vue Store')
 const cart = ref([])
 </script>
 
