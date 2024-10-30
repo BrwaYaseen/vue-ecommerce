@@ -43,10 +43,10 @@
               placeholder="Search products..."
               class="w-full px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
               v-model="searchQuery"
-              @keyup.enter="performSearch"
+              @input="handleSearch"
             />
             <button
-              @click="performSearch"
+              @click="handleSearch"
               class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-500"
             >
               <SearchIcon class="w-5 h-5" />
@@ -135,7 +135,9 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { useCartStore } from '@/stores/cart'
+import { useProductStore } from '@/stores/product'
 import {
   ShoppingBagIcon,
   ShoppingCartIcon,
@@ -152,7 +154,9 @@ const props = defineProps({
   },
 })
 
+const router = useRouter()
 const cartStore = useCartStore()
+const productStore = useProductStore()
 
 const links = [
   { to: '/', text: 'Home' },
@@ -165,18 +169,30 @@ const mobileMenuOpen = ref(false)
 const isCartOpen = ref(false)
 const searchQuery = ref('')
 
+// Debounce function
+const debounce = (fn, delay) => {
+  let timeoutId
+  return (...args) => {
+    clearTimeout(timeoutId)
+    timeoutId = setTimeout(() => fn(...args), delay)
+  }
+}
+
+const handleSearch = debounce(() => {
+  productStore.setSearchQuery(searchQuery.value)
+
+  // If we're not already on the products page, navigate to it
+  if (router.currentRoute.value.name !== 'Products') {
+    router.push({ name: 'Products' })
+  }
+}, 300)
+
 const toggleMobileMenu = () => {
   mobileMenuOpen.value = !mobileMenuOpen.value
 }
 
 const toggleCart = () => {
   isCartOpen.value = !isCartOpen.value
-}
-
-const performSearch = () => {
-  // Implement search functionality here
-  console.log('Searching for:', searchQuery.value)
-  // You might want to emit an event or use a store action to handle the search
 }
 </script>
 
