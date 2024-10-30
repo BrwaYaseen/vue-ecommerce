@@ -3,8 +3,24 @@ import { defineStore } from 'pinia'
 export const useProductStore = defineStore('product', {
   state: () => ({
     products: [],
+    searchQuery: '',
   }),
+  getters: {
+    filteredProducts: state => {
+      const query = state.searchQuery.toLowerCase().trim()
+      if (!query) return state.products
+
+      return state.products.filter(product => {
+        const matchName = product.name.toLowerCase().includes(query)
+        const matchCategory = product.category.toLowerCase().includes(query)
+        return matchName || matchCategory
+      })
+    },
+  },
   actions: {
+    setSearchQuery(query) {
+      this.searchQuery = query
+    },
     async fetchProducts() {
       // In a real application, this would be an API call
       // For now, we'll use dummy data
