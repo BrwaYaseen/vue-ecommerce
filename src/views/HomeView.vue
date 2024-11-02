@@ -159,26 +159,22 @@ const categories = ref([
   {
     id: 1,
     name: 'Jackets',
-    image:
-      'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/jackets-category-RFXxWb8JQxhXbwZXXXXXXXXXXX.jpg',
+    image: 'jackets.jpg',
   },
   {
     id: 2,
     name: 'Shirts',
-    image:
-      'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/shirts-category-RFXxWb8JQxhXbwZXXXXXXXXXXX.jpg',
+    image: 'tsh.jpg',
   },
   {
     id: 3,
     name: 'Pants',
-    image:
-      'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/pants-category-RFXxWb8JQxhXbwZXXXXXXXXXXX.jpg',
+    image: 'pants.jpg',
   },
   {
     id: 4,
     name: 'Accessories',
-    image:
-      'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/accessories-category-RFXxWb8JQxhXbwZXXXXXXXXXXX.jpg',
+    image: 'acc.jpg',
   },
 ])
 
