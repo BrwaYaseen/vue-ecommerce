@@ -164,7 +164,7 @@ const categories = ref([
   {
     id: 2,
     name: 'Shirts',
-    image: 'tsh.jpg',
+    image: 'tsh.webp',
   },
   {
     id: 3,

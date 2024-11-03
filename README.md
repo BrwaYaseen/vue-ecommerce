@@ -33,3 +33,5 @@ npm run build
 ```sh
 npm run lint
 ```
+
+demo: https://vue-ecommerce-rouge-xi.vercel.app/
