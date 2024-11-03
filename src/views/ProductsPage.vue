@@ -2,7 +2,6 @@
   <div class="container mx-auto px-4 py-8">
     <h1 class="text-3xl font-bold mb-8">Our Products</h1>
     <div class="flex flex-col md:flex-row gap-8">
-      <!-- Categories and Filters Sidebar -->
       <div class="w-full md:w-1/4">
         <div class="sticky top-4">
           <div class="bg-white rounded-lg shadow-md p-6">
@@ -57,9 +56,7 @@
         </div>
       </div>
 
-      <!-- Products Grid -->
       <div class="w-full md:w-3/4">
-        <!-- Results info -->
         <div class="mb-6 flex justify-between items-center">
           <p class="text-gray-600">
             Showing {{ displayedProducts.length }} products
@@ -127,7 +124,6 @@ const toggleCategory = category => {
 }
 
 const applyFilters = () => {
-  // The computed displayedProducts will automatically update
   console.log('Filters applied:', {
     categories: selectedCategories.value,
     priceRange: { min: minPrice.value, max: maxPrice.value },
@@ -139,18 +135,15 @@ const addToCart = product => {
   cartStore.addItem(product)
 }
 
-// Combine search results with filters and sorting
 const displayedProducts = computed(() => {
   let filtered = productStore.filteredProducts
 
-  // Apply category filter if any categories are selected
   if (selectedCategories.value.length > 0) {
     filtered = filtered.filter(product =>
       selectedCategories.value.includes(product.category),
     )
   }
 
-  // Apply price filter
   if (minPrice.value !== null || maxPrice.value !== null) {
     filtered = filtered.filter(product => {
       const aboveMin =
@@ -161,7 +154,6 @@ const displayedProducts = computed(() => {
     })
   }
 
-  // Apply sorting
   return [...filtered].sort((a, b) => {
     switch (sortBy.value) {
       case 'name':
@@ -176,6 +168,5 @@ const displayedProducts = computed(() => {
   })
 })
 
-// Fetch products when the component is mounted
 productStore.fetchProducts()
 </script>

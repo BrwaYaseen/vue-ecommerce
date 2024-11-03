@@ -1,7 +1,6 @@
 <template>
   <div class="min-h-screen bg-gray-100 flex flex-col">
     <main class="flex-grow">
-      <!-- Hero Section -->
       <section class="bg-blue-600 text-white py-20">
         <div class="container mx-auto px-4 text-center">
           <h1 class="text-4xl md:text-6xl font-bold mb-4">
@@ -19,7 +18,6 @@
         </div>
       </section>
 
-      <!-- Featured Products Section -->
       <section id="featured-products" class="py-16">
         <div class="container mx-auto px-4">
           <h2 class="text-2xl font-bold text-gray-900 mb-8">
@@ -38,7 +36,6 @@
         </div>
       </section>
 
-      <!-- Categories Section -->
       <section class="bg-gray-200 py-16">
         <div class="container mx-auto px-4">
           <h2 class="text-3xl font-semibold text-gray-800 mb-8 text-center">
@@ -65,7 +62,6 @@
         </div>
       </section>
 
-      <!-- Special Offer Section -->
       <section
         class="py-16 bg-gradient-to-r from-purple-500 to-pink-500 text-white"
       >
@@ -83,7 +79,6 @@
         </div>
       </section>
 
-      <!-- Testimonials Section -->
       <section class="py-16">
         <div class="container mx-auto px-4">
           <h2 class="text-3xl font-semibold text-gray-800 mb-8 text-center">
