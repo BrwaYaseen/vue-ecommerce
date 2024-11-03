@@ -184,21 +184,21 @@ const testimonials = ref([
     name: 'John Doe',
     title: 'Fashion Enthusiast',
     text: 'The quality of clothes here is outstanding. I love my new jacket!',
-    avatar: '/placeholder.svg?height=100&width=100',
+    avatar: '/john.jpg',
   },
   {
     id: 2,
     name: 'Jane Smith',
     title: 'Loyal Customer',
     text: 'Always find the latest trends here. The fit is always perfect!',
-    avatar: '/placeholder.svg?height=100&width=100',
+    avatar: '/jane.jpg',
   },
   {
     id: 3,
     name: 'Mike Johnson',
     title: 'Style Blogger',
     text: 'This boutique is my go-to for unique, stylish pieces. Highly recommended!',
-    avatar: '/placeholder.svg?height=100&width=100',
+    avatar: '/mike.jpg',
   },
 ])
 
